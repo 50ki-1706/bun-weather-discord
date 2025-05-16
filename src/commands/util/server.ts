@@ -7,7 +7,9 @@ export const data = new SlashCommandBuilder()
 
 export async function execute(interaction: CommandInteraction) {
   await interaction.reply({
-    content: `This command was run on server ${interaction.guild.name}, which has ${interaction.guild.memberCount} members.`,
+    content: `This command was run on server ${interaction.guild?.name || ''}, which has ${
+      interaction.guild?.memberCount || 0
+    } members.`,
     ephemeral: true,
   });
 }

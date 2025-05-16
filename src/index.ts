@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { ActivityType, Client, Collection, Events, GatewayIntentBits } from 'discord.js';
-import { CommandInteraction, ChatInputCommandInteraction } from 'discord.js';
+import { CommandInteraction } from 'discord.js';
 
 // create a new Client instance
 const client = new Client({

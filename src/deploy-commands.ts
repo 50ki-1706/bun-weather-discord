@@ -5,10 +5,10 @@ import path from 'path';
 const commands = [];
 const folderPath = path.join(__dirname, 'commands');
 const commandsPath = path.join(folderPath, 'util');
-const commandFiles = fs.readdirSync(commandsPath).filter((file) => file.endsWith('.ts'));
+const commandFiles = fs.readdirSync(commandsPath).filter(async (file) => file.endsWith('.ts'));
 for (const file of commandFiles) {
   const filePath = path.join(commandsPath, file);
-  const command = require(filePath);
+  const command = await import(filePath);
   if ('data' in command && 'execute' in command) {
     commands.push(command.data.toJSON());
   } else {
