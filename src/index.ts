@@ -18,7 +18,7 @@ const client = new Client({
 client.commands = new Collection<string, (interaction: CommandInteraction) => Promise<void>>();
 
 // コマンドファイルの読み込み
-const loadCommands = async () => {
+const loadCommands = async (): Promise<void> => {
   const folderPath = path.join(__dirname, 'commands');
   const commandsPath = path.join(folderPath, 'util');
   const commandFiles = fs.readdirSync(commandsPath).filter((file) => file.endsWith('.ts'));
@@ -41,7 +41,7 @@ const loadCommands = async () => {
 };
 
 // イベントファイルの読み込み
-const loadEvents = async () => {
+const loadEvents = async (): Promise<void> => {
   const eventsPath = path.join(__dirname, 'events');
   const eventFiles = fs.readdirSync(eventsPath).filter((file) => file.endsWith('.ts'));
 
@@ -63,7 +63,7 @@ const loadEvents = async () => {
 };
 
 // 起動処理
-const start = async () => {
+const start = async (): Promise<void> => {
   await loadCommands();
   await loadEvents();
 
