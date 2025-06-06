@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const descriptionSchema = z.object({
+const DescriptionSchema = z.object({
   publicTime: z.string(),
   publicTimeFormatted: z.string(),
   headlineText: z.string(),
@@ -8,32 +8,26 @@ const descriptionSchema = z.object({
   text: z.string(),
 });
 
-const forecastsSchema = z.object({
+const ForecastsSchema = z.object({
   date: z.string(),
   dateLabel: z.string(),
   telop: z.string(),
   detail: z.object({
-    weather: z.string(),
-    wind: z.string(),
-    wave: z.string(),
+    weather: z.string().nullable(),
+    wind: z.string().nullable(),
+    wave: z.string().nullable(),
   }),
   temperature: z.object({
     min: z.object({
-      celsius: z.string(),
-      fahrenheit: z.string(),
+      celsius: z.string().nullable(),
+      fahrenheit: z.string().nullable(),
     }),
     max: z.object({
-      celsius: z.string(),
-      fahrenheit: z.string(),
+      celsius: z.string().nullable(),
+      fahrenheit: z.string().nullable(),
     }),
   }),
   chanceOfRain: z.object({
-    T00_06: z.string(),
-    T06_12: z.string(),
-    T12_18: z.string(),
-    T18_24: z.string(),
-  }),
-  chanceOfSnow: z.object({
     T00_06: z.string(),
     T06_12: z.string(),
     T12_18: z.string(),
@@ -47,20 +41,20 @@ const forecastsSchema = z.object({
   }),
 });
 
-const locationSchema = z.object({
+const LocationSchema = z.object({
   area: z.string(),
   prefecture: z.string(),
   district: z.string(),
   city: z.string(),
 });
 
-const providerSchema = z.object({
+const ProviderSchema = z.object({
   link: z.string(),
   name: z.string(),
   note: z.string(),
 });
 
-const copyrightSchema = z.object({
+const CopyrightSchema = z.object({
   title: z.string(),
   link: z.string(),
   image: z.object({
@@ -70,7 +64,7 @@ const copyrightSchema = z.object({
     width: z.number(),
     height: z.number(),
   }),
-  provider: z.array(providerSchema),
+  provider: z.array(ProviderSchema),
 });
 
 export const WeatherResponseSchema = z.object({
@@ -79,8 +73,8 @@ export const WeatherResponseSchema = z.object({
   publishingOffice: z.string(),
   title: z.string(),
   link: z.string(),
-  description: descriptionSchema,
-  forecasts: z.array(forecastsSchema),
-  location: locationSchema,
-  copyright: copyrightSchema,
+  description: DescriptionSchema,
+  forecasts: z.array(ForecastsSchema),
+  location: LocationSchema,
+  copyright: CopyrightSchema,
 });
