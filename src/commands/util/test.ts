@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, CommandInteraction } from 'discord.js';
 import { getWeather } from '../../api/weather/api';
-import type { Forecast, WeatherResponse } from '../../types/api/WeatherResponse';
+import type { WeatherResponse, Forecast } from '../../schemas/WeatherResponse';
 
 export const data = new SlashCommandBuilder()
   .setName('test')

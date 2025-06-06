@@ -78,3 +78,6 @@ export const WeatherResponseSchema = z.object({
   location: LocationSchema,
   copyright: CopyrightSchema,
 });
+
+export type WeatherResponse = z.infer<typeof WeatherResponseSchema>;
+export type Forecast = z.infer<typeof ForecastsSchema>;

@@ -1,5 +1,5 @@
 import { WeatherResponseSchema } from '../../schemas/WeatherResponse';
-import type { WeatherResponse } from '../../types/api/WeatherResponse';
+import type { WeatherResponse } from '../../schemas/WeatherResponse';
 
 const url = 'https://weather.tsukumijima.net/api/forecast/city/130010';
 
