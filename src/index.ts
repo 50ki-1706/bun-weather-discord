@@ -34,11 +34,23 @@ const forecastSchedule = baker.add({
 const test = baker.add({
   name: 'test',
   cron: '*/5 * * * * *',
-  callback: () => {
+  callback: async () => {
     const channel = client.channels.resolve(env.NOTIFICATION_CHANNEL_ID);
     if (!channel || !channel.isTextBased() || !('send' in channel)) return;
     const res = getWeather();
-    divideJsonContent(res);
+    const { title, description, forecasts, resMessage, error } = await divideJsonContent(res);
+    if (error) {
+      console.error('Error fetching weather data:', error);
+      channel.send(`${resMessage}error: ${error}`);
+      return;
+    }
+    if (!title && !description && !forecasts && !error) {
+      channel.send({ content: resMessage });
+      return;
+    }
+    channel.send({
+      content: `title: ${title}, description: ${description}, forecasts: ${forecasts}`,
+    });
   },
 });
 const start = async (): Promise<void> => {
