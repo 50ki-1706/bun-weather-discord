@@ -1,3 +1,4 @@
+import { WeatherResponseSchema } from '../../schemas/WeatherResponse';
 import type { WeatherResponse } from '../../types/api/WeatherResponse';
 
 const url = 'https://weather.tsukumijima.net/api/forecast/city/130010';
@@ -9,6 +10,7 @@ export const getWeather = async (): Promise<WeatherResponse> => {
     throw new Error(`Weather API error: ${response.status}`);
   }
 
-  const data = (await response.json()) as WeatherResponse;
-  return data;
+  const data = await response.json();
+
+  return WeatherResponseSchema.parse(data);
 };

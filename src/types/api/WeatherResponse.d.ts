@@ -4,36 +4,10 @@ export interface WeatherResponse {
   publishingOffice: string;
   title: string;
   link: string;
-  description: {
-    publicTime: string;
-    publicTimeFormatted: string;
-    headlineText: string;
-    bodyText: string;
-    text: string;
-  };
+  description: description;
   forecasts: Forecast[];
-  location: {
-    area: string;
-    prefecture: string;
-    district: string;
-    city: string;
-  };
-  copyright: {
-    title: string;
-    link: string;
-    image: {
-      title: string;
-      link: string;
-      url: string;
-      width: number;
-      height: number;
-    };
-    provider: Array<{
-      link: string;
-      name: string;
-      note: string;
-    }>;
-  };
+  location: location;
+  copyright: copyright;
 }
 
 export interface Forecast {
@@ -67,4 +41,38 @@ export interface Forecast {
     width: number;
     height: number;
   };
+}
+
+export interface description {
+  publicTime: string;
+  publicTimeFormatted: string;
+  headlineText: string;
+  bodyText: string;
+  text: string;
+}
+
+export interface location {
+  area: string;
+  prefecture: string;
+  district: string;
+  city: string;
+}
+
+export interface copyright {
+  title: string;
+  link: string;
+  image: {
+    title: string;
+    link: string;
+    url: string;
+    width: number;
+    height: number;
+  };
+  provider: provider[];
+}
+
+export interface provider {
+  link: string;
+  name: string;
+  note: string;
 }
