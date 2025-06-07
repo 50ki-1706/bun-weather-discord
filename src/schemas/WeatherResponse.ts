@@ -8,31 +8,36 @@ const DescriptionSchema = z.object({
   text: z.string(),
 });
 
+const detailSchema = z.object({
+  weather: z.string().nullable(),
+  wind: z.string().nullable(),
+  wave: z.string().nullable(),
+});
+
+const temperatureSchema = z.object({
+  min: z.object({
+    celsius: z.string().nullable(),
+    fahrenheit: z.string().nullable(),
+  }),
+  max: z.object({
+    celsius: z.string().nullable(),
+    fahrenheit: z.string().nullable(),
+  }),
+});
+
+const chanceOfRainSchema = z.object({
+  T00_06: z.string(),
+  T06_12: z.string(),
+  T12_18: z.string(),
+  T18_24: z.string(),
+});
 const ForecastsSchema = z.object({
   date: z.string(),
   dateLabel: z.string(),
   telop: z.string(),
-  detail: z.object({
-    weather: z.string().nullable(),
-    wind: z.string().nullable(),
-    wave: z.string().nullable(),
-  }),
-  temperature: z.object({
-    min: z.object({
-      celsius: z.string().nullable(),
-      fahrenheit: z.string().nullable(),
-    }),
-    max: z.object({
-      celsius: z.string().nullable(),
-      fahrenheit: z.string().nullable(),
-    }),
-  }),
-  chanceOfRain: z.object({
-    T00_06: z.string(),
-    T06_12: z.string(),
-    T12_18: z.string(),
-    T18_24: z.string(),
-  }),
+  detail: detailSchema,
+  temperature: temperatureSchema,
+  chanceOfRain: chanceOfRainSchema,
   image: z.object({
     title: z.string(),
     url: z.string(),
@@ -81,3 +86,6 @@ export const WeatherResponseSchema = z.object({
 
 export type WeatherResponse = z.infer<typeof WeatherResponseSchema>;
 export type Forecast = z.infer<typeof ForecastsSchema>;
+export type Detail = z.infer<typeof detailSchema>;
+export type Temperature = z.infer<typeof temperatureSchema>;
+export type ChanceOfRain = z.infer<typeof chanceOfRainSchema>;
