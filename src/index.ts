@@ -9,6 +9,7 @@ import type { WeatherResponse, Forecast } from './schemas/WeatherResponse';
 import { divideJsonContent } from './utils/divideJsonContent';
 import { forecastFormatting } from './utils/forecastFormatting';
 import type { forecastContentType } from './types/forecastContentType';
+import { extractWeatherTerm, getWeatherIcon, isSubWeatherTerm } from './utils/parseWeatherTerm';
 
 // コマンドを保存するコレクションを初期化
 client.commands = new Collection<string, (interaction: CommandInteraction) => Promise<void>>();
@@ -42,24 +43,28 @@ const test = baker.add({
     const res = getWeather();
     const { title, description, forecasts, resMessage, error } = await divideJsonContent(res);
 
-    if (!title || !description || !forecasts || !resMessage || error) {
+    if (error) {
       channel.send(resMessage);
       return;
     }
 
-    const forecastContents: forecastContentType[] = forecastFormatting(forecasts);
+    const forecastContents: forecastContentType[] = forecastFormatting(forecasts!);
+
     forecastContents.map((content) => {
-      const embed = new EmbedBuilder()
-        .setTitle(`${content.dateLabel}の天気`)
+      const iconArray = getWeatherIcon(content.detail.weather);
+      const embed: EmbedBuilder = new EmbedBuilder()
+        .setTitle(content.date)
         .setAuthor({
-          name: content.dateLabel,
-          iconURL: content.weatherIcon,
+          name: title!,
         })
-        .setThumbnail(content.weatherIcon)
         .addFields([
           {
+            name: '概要',
+            value: description || 'N/A',
+          },
+          {
             name: '天気',
-            value: content.detail.weather || 'N/A',
+            value: `${iconArray.map((icon) => icon).join('/')} ${content.detail.weather || 'N/A'}`,
           },
           {
             name: '最高気温',
