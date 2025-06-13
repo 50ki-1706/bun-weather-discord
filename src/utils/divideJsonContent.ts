@@ -7,11 +7,9 @@ export const divideJsonContent = async (
   try {
     const res = await req;
     const title = res.title;
-    const description = res.description.text;
     const forecasts = res.forecasts;
     return {
       title,
-      description,
       forecasts,
       resMessage: '天気予報の取得に成功しました',
       error: null,
@@ -19,7 +17,6 @@ export const divideJsonContent = async (
   } catch (error: unknown) {
     return {
       title: null,
-      description: null,
       forecasts: null,
       resMessage: '天気予報の取得に失敗しました',
       error: error instanceof Error ? error.message : String(error),
