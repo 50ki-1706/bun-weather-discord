@@ -9,7 +9,7 @@ import type { WeatherResponse, Forecast } from './schemas/WeatherResponse';
 import { divideJsonContent } from './utils/divideJsonContent';
 import { forecastFormatting } from './utils/forecastFormatting';
 import type { forecastContentType } from './types/forecastContentType';
-import { extractWeatherTerm, getWeatherIcon, isSubWeatherTerm } from './utils/parseWeatherTerm';
+import { getWeatherIcon } from './utils/parseWeatherTerm';
 
 // コマンドを保存するコレクションを初期化
 client.commands = new Collection<string, (interaction: CommandInteraction) => Promise<void>>();
@@ -36,7 +36,7 @@ const forecastSchedule = baker.add({
 
 const test = baker.add({
   name: 'test',
-  cron: '*/10 * * * * *',
+  cron: '*/1 * * * *',
   callback: async () => {
     const channel = client.channels.resolve(env.NOTIFICATION_CHANNEL_ID);
     if (!channel || !channel.isTextBased() || !('send' in channel)) return;
@@ -51,7 +51,7 @@ const test = baker.add({
     const forecastContents: forecastContentType[] = forecastFormatting(forecasts!);
 
     forecastContents.map((content) => {
-      const iconArray = getWeatherIcon(content.detail.weather);
+      const iconArray = getWeatherIcon(content.telop);
       const embed: EmbedBuilder = new EmbedBuilder()
         .setTitle(content.date)
         .setAuthor({
@@ -64,7 +64,7 @@ const test = baker.add({
           },
           {
             name: '天気',
-            value: `${iconArray.map((icon) => icon).join('/')} ${content.detail.weather || 'N/A'}`,
+            value: `${iconArray.map((icon) => icon).join('/')} ${content.telop || 'N/A'}`,
           },
           {
             name: '最高気温',

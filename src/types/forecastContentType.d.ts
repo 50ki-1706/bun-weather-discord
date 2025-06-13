@@ -3,6 +3,7 @@ import type { Detail, Temperature, ChanceOfRain } from '../schemas/WeatherRespon
 export type forecastContentType = {
   date: string;
   dateLabel: string;
+  telop: string;
   detail: Detail;
   temperature: Temperature;
   chanceOfRain: ChanceOfRain;
