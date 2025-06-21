@@ -9,15 +9,18 @@ import { divideJsonContent } from './utils/divideJsonContent';
 import { forecastFormatting } from './utils/forecastFormatting';
 import type { forecastContentType } from './types/forecastContentType';
 import { getWeatherIcon } from './utils/parseWeatherTerm';
+import { convertJstToUtc } from './utils/cron';
 
 // コマンドを保存するコレクションを初期化
 client.commands = new Collection<string, (interaction: CommandInteraction) => Promise<void>>();
 
 const baker = Baker.create();
 
+
+
 const forecastSchedule = baker.add({
   name: 'daily-job',
-  cron: '0 0 0,6,12,18 * * *',
+  cron: `0 0 ${convertJstToUtc(0)},${convertJstToUtc(6)},${convertJstToUtc(12)},${convertJstToUtc(18)} * * *`,
   callback: async () => {
    const channel = client.channels.resolve(env.NOTIFICATION_CHANNEL_ID);
     if (!channel || !channel.isTextBased() || !('send' in channel)) return;
