@@ -12,7 +12,7 @@ for (const file of commandFiles) {
   if ('data' in command && 'execute' in command) {
     commands.push(command.data.toJSON());
   } else {
-    console.log(
+    console.warn(
       `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
     );
   }
@@ -23,9 +23,9 @@ if (!process.env.DISCORD_TOKEN || !process.env.DISCORD_CLIENT_ID || !process.env
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 (async () => {
   try {
-    console.log(`Started refreshing ${commands.length} application (/) commands.`);
+    console.info(`Started refreshing ${commands.length} application (/) commands.`);
     // The put method is used to fully refresh all commands in the guild with the current set
-    const data: any = await rest.put(
+    const data: unknown = await rest.put(
       Routes.applicationGuildCommands(
         process.env.DISCORD_CLIENT_ID!,
         process.env.DISCORD_GUILD_ID!
@@ -34,7 +34,7 @@ const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
         body: commands,
       }
     );
-    console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+    console.info(`Successfully reloaded ${Array.isArray(data) ? data.length : 0} application (/) commands.`);
   } catch (error) {
     console.error(error);
   }

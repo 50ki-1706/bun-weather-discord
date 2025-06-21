@@ -39,7 +39,7 @@ export function getWeatherIcon(weather: string | null): string[] {
   if (!weatherTerms) return ["❓"];
   weatherTerms.map((term) => {
     if (term === '晴') iconArray.push('☀️');
-    if (term === '曇' || term == "止む") iconArray.push('☁️');
+    if (term === '曇' || term === "止む") iconArray.push('☁️');
     if (term === '雨' || term === 'みぞれ') iconArray.push('🌧️');
     if (term === '雪') iconArray.push('❄️');
     if (term === '雷') iconArray.push('⚡️');
